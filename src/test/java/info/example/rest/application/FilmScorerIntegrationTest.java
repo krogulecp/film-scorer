@@ -4,8 +4,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.util.MultiValueMap;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -55,5 +58,36 @@ class FilmScorerIntegrationTest {
         assertThat(filmResponseEntity).isNotNull();
         assertThat(filmResponseEntity.getTitle()).isEqualTo("Rambo");
         assertThat(filmResponseEntity.getScore()).isEqualTo("9.67");
+    }
+
+    @Test
+    void should_save_film_with_first_uppercase() {
+
+        //given
+        testRestTemplate.postForEntity("/score", new FilmScoreRequest("the Terminator", 5), FilmScoreResponse.class);
+
+        //when
+        ResponseEntity<FilmResponse> film = testRestTemplate.getForEntity("/film/The Terminator", FilmResponse.class);
+
+        //then
+        assertThat(film.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        FilmResponse filmResponseEntity = film.getBody();
+
+        assertThat(filmResponseEntity).isNotNull();
+        assertThat(filmResponseEntity.getTitle()).isEqualTo("The Terminator");
+    }
+
+    @Test
+    void should_fail_searching_film_using_lowercase() {
+
+        //given
+        testRestTemplate.postForEntity("/score", new FilmScoreRequest("the Terminator", 5), FilmScoreResponse.class);
+
+        //when
+        ResponseEntity<FilmResponse> film = testRestTemplate.getForEntity("/film/the Terminator", FilmResponse.class);
+
+        //then
+        assertThat(film.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 }
