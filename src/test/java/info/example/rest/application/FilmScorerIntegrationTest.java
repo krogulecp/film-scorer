@@ -1,5 +1,6 @@
 package info.example.rest.application;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import info.example.rest.starter.FilmScoreRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,6 +91,16 @@ class FilmScorerIntegrationTest {
 
         //then
         assertThat(film.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void should_overide_objectMapper() {
+
+        //given
+        //when
+        ObjectMapper objectMapper = (ObjectMapper) context.getBean("objectMapper");
+        //then
+        assertThat(objectMapper).isNotNull();
     }
 
     @Test
