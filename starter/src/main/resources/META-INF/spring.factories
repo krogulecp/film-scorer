@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  info.example.rest.starter.ApplicationConfiguration
+  info.example.rest.starter.ApplicationConfiguration,\
+  info.example.rest.starter.ApplicationPreConfiguration
