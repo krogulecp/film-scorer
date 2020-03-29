@@ -9,6 +9,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.TestPropertySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author krogulecp
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource("classpath:application.properties")
 class FilmScorerIntegrationTest {
 
     @Autowired
@@ -121,12 +123,11 @@ class FilmScorerIntegrationTest {
 
         //given
         //when
-        Object testA = context.getBean("testA");
-        Object testB = context.getBean("testB");
-        Object testC = context.getBean("testC");
+        Integer testA = (Integer) context.getBean("testA");
+        Integer testB = (Integer) context.getBean("testB");
+        Integer testC = (Integer) context.getBean("testC");
         //then
-        assertThat(testA).isEqualTo(0);
-        assertThat(testB).isEqualTo(1);
-        assertThat(testC).isEqualTo(2);
+        assertThat(testA < testB).isTrue();
+        assertThat(testB < testC).isTrue();
     }
 }

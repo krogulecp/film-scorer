@@ -1,16 +1,18 @@
 package info.example.rest.starter;
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@EnableConfigurationProperties(SomeProperties.class)
 public class ApplicationPreConfiguration {
 
     public static Integer counter = 0;
 
     @Bean("mapperNumber")
-    Integer testObject() {
-        return 1;
+    Integer testObject(SomeProperties properties) {
+        return properties.getMapper();
     }
 
     @Bean("testA")

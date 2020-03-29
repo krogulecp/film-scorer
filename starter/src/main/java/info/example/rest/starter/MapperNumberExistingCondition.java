@@ -8,12 +8,10 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 public class MapperNumberExistingCondition implements Condition {
     @Override
     public boolean matches(ConditionContext conditionContext, AnnotatedTypeMetadata annotatedTypeMetadata) {
-        Object mapperNumber;
         try {
-            mapperNumber = conditionContext.getBeanFactory().getBean("mapperNumber");
+            return conditionContext.getBeanFactory().containsBean("mapperNumber");
         } catch (NoSuchBeanDefinitionException ex) {
             return false;
         }
-        return mapperNumber instanceof Integer;
     }
 }
