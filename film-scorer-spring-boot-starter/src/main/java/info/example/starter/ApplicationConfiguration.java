@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.springframework.boot.autoconfigure.condition.*;
+import org.springframework.boot.system.JavaVersion;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -17,9 +19,14 @@ import java.io.IOException;
  * @author sebastianf
  */
 @Configuration
+@ConditionalOnWebApplication
+@ConditionalOnJava(range = ConditionalOnJava.Range.OLDER_THAN, value = JavaVersion.TWELVE)
+@ConditionalOnExpression("'Hello World!'.contains('!')")
 class ApplicationConfiguration {
 
     @Bean
+    @ConditionalOnBean(type = "info.example.rest.application.FilmController")
+    @ConditionalOnClass(name = "info.example.rest.domain.Film")
     ObjectMapper objectMapper() {
         ObjectMapper mapper = new Jackson2ObjectMapperBuilder()
                 .build();
