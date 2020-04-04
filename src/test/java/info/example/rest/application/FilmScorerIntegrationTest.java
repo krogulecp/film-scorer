@@ -114,4 +114,17 @@ class FilmScorerIntegrationTest {
         //then
         assertThat(objectMapper).isNotNull();
     }
+
+    @Test
+    void should_increase_counter_in_order() {
+
+        //given
+        //when
+        Integer testA = (Integer) context.getBean("testA");
+        Integer testB = (Integer) context.getBean("testB");
+        Integer testC = (Integer) context.getBean("testC");
+        //then
+        assertThat(testA < testB).isTrue();
+        assertThat(testB < testC).isTrue();
+    }
 }
