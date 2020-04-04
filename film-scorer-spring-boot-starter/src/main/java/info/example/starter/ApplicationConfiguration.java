@@ -32,6 +32,7 @@ class ApplicationConfiguration {
     @Bean
     @ConditionalOnBean(type = "info.example.rest.application.FilmController")
     @ConditionalOnClass(name = "info.example.rest.domain.Film")
+    @ConditionalOnExistingMapperNumber
     ObjectMapper objectMapper(Integer mapperNumber) {
         ObjectMapper mapper = new Jackson2ObjectMapperBuilder()
                 .build();
