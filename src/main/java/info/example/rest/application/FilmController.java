@@ -1,5 +1,6 @@
 package info.example.rest.application;
 
+import info.example.starter.FilmScoreRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

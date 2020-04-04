@@ -1,4 +1,4 @@
-package info.example.rest.application;
+package info.example.starter;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +14,7 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-class FilmScoreRequest {
+public class FilmScoreRequest {
 
     @NotEmpty
     private String title;
