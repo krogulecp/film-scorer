@@ -24,23 +24,32 @@ import java.io.IOException;
 @ConditionalOnExpression("'Hello World!'.contains('!')")
 class ApplicationConfiguration {
 
+    @Bean("mapperNumber")
+    Integer testObject() {
+        return 1;
+    }
+
     @Bean
     @ConditionalOnBean(type = "info.example.rest.application.FilmController")
     @ConditionalOnClass(name = "info.example.rest.domain.Film")
-    ObjectMapper objectMapper() {
+    ObjectMapper objectMapper(Integer mapperNumber) {
         ObjectMapper mapper = new Jackson2ObjectMapperBuilder()
                 .build();
         SimpleModule module = new SimpleModule();
-        module.addDeserializer(FilmScoreRequest.class, new JsonDeserializer<>() {
-            @Override
-            public FilmScoreRequest deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
-                JsonNode node = jsonParser.getCodec().readTree(jsonParser);
-                int score = node.get("score").asInt();
-                String title = node.get("title").asText();
-                title = StringUtils.capitalize(title);
-                return new FilmScoreRequest(title, score);
-            }
-        });
+        if (mapperNumber == 1) {
+            module.addDeserializer(FilmScoreRequest.class, new JsonDeserializer<>() {
+                @Override
+                public FilmScoreRequest deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+                    JsonNode node = jsonParser.getCodec().readTree(jsonParser);
+                    int score = node.get("score").asInt();
+                    String title = node.get("title").asText();
+                    title = StringUtils.capitalize(title);
+                    return new FilmScoreRequest(title, score);
+                }
+            });
+        } else {
+            throw new IllegalArgumentException("mapperNumber should be equal to 1");
+        }
         mapper.registerModule(module);
         return mapper;
     }

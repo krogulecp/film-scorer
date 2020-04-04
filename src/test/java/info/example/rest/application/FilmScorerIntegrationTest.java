@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,6 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class FilmScorerIntegrationTest {
 
+    @Autowired
+    ApplicationContext context;
     @Autowired
     private TestRestTemplate testRestTemplate;
 
@@ -86,5 +89,18 @@ class FilmScorerIntegrationTest {
 
         //then
         assertThat(film.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void should_success_when_bean_exist_in_context() {
+
+        //given
+        //when
+        Object test = context.getBean("mapperNumber");
+
+        //then
+        assertThat(test).isNotNull();
+        assertThat(test).isInstanceOf(Integer.class);
+        assertThat((Integer) test).isEqualTo(1);
     }
 }
