@@ -15,12 +15,12 @@ class InMemoryFilmRepository implements FilmRepository {
     private static Map<String, Film> films = new HashMap<>();
 
     @Override
-    public Optional<Film> getFilmByTitle(String title) {
+    public Optional<Film> getFilmByTitle(final String title) {
         return Optional.ofNullable(films.get(title));
     }
 
     @Override
-    public void save(Film film) {
+    public void save(final Film film) {
         films.put(film.getTitle(), film);
     }
 }
