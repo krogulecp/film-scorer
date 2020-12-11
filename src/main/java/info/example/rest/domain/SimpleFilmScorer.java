@@ -1,5 +1,7 @@
 package info.example.rest.domain;
 
+import org.springframework.stereotype.Component;
+
 /**
  * @author krogulecp
  */
