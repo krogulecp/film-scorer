@@ -4,6 +4,7 @@ import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.library.dependencies.SlicesRuleDefinition.slices;
@@ -23,5 +24,6 @@ public class ArchitectureTest {
     @ArchTest
     static final ArchRule no_spring_in_domain =
             classes().that().resideInAnyPackage("..domain..")
-            .should().notBeAnnotatedWith(Controller.class);
+            .should().notBeAnnotatedWith(Controller.class).andShould()
+                    .notBeAnnotatedWith(Service.class);
 }
